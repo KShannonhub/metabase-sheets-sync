@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to send Metabase results to Google Sheets automatically (free)</title>
+  <meta name="description" content="Metabase can't push results to Google Sheets on a schedule. Here's the manual way, and a free script that refreshes your Sheet every hour or every morning. Works with SSO, nothing to host." />
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --text: #e8eaf0;
+      --muted: #9aa3b2;
+      --accent: #3ddc97;
+      --accent-ink: #062b1c;
+      --coffee: #ffdd00;
+      --line: #262b36;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 56px 20px 80px; }
+    .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
+    h1 { font-size: clamp(30px, 5.5vw, 44px); line-height: 1.15; margin: 12px 0 16px; }
+    h2 { font-size: 24px; margin: 52px 0 14px; }
+    p.lead { font-size: 19px; color: var(--muted); margin: 0 0 28px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-block;
+      font-weight: 800;
+      padding: 13px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .btn-main { background: var(--accent); color: var(--accent-ink); }
+    .btn-coffee { background: var(--coffee); color: #111; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; }
+    .steps li {
+      counter-increment: step;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 16px 16px 56px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 16px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+    ul.checks { padding-left: 20px; }
+    ul.checks li { margin-bottom: 8px; }
+    code { background: #0b0d11; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 14px; }
+    details {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    summary { cursor: pointer; font-weight: 700; }
+    .coffee-box { text-align: center; margin-top: 56px; }
+    .coffee-box p { color: var(--muted); }
+    footer { color: var(--muted); font-size: 13px; margin-top: 56px; border-top: 1px solid var(--line); padding-top: 20px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Free guide + free tool</div>
+  <h1>How to send Metabase results to Google Sheets automatically</h1>
+  <p class="lead">
+    Metabase can import Google Sheets, but it can't push a question's results back out to a Sheet on a schedule.
+    Here's the manual way, and a free script that does it for you every hour or every morning.
+  </p>
+
+  <div class="buttons">
+    <a class="btn btn-main" href="https://github.com/KShannonhub/metabase-sheets-sync">Get the free script</a>
+    <a class="btn btn-coffee" href="https://buymeacoffee.com/krisshannon">☕ Buy me a coffee</a>
+  </div>
+
+  <h2>The manual way (fine for once in a while)</h2>
+  <div class="panel">
+    Open the question in Metabase, click the download icon, choose <b>.csv</b>, then in Google Sheets use
+    <b>File → Import → Upload</b> and choose <b>Replace current sheet</b>. Newer Metabase versions can also copy
+    results to your clipboard to paste into a Sheet. Either way, someone has to repeat it every time the numbers change.
+  </div>
+
+  <h2>The automatic way (free)</h2>
+  <p>SheetRefresh is a small open-source script that lives inside your Google Sheet. Set it up once:</p>
+  <ol class="steps">
+    <li><b>Create a Metabase API key.</b> Admin → Settings → Authentication → API Keys. Give it a group that can only see what the Sheet needs.</li>
+    <li><b>Paste the script into your Sheet.</b> Extensions → Apps Script, paste <code>Code.gs</code> from GitHub, save, and reload the Sheet.</li>
+    <li><b>Connect and add questions.</b> Use the new <b>SheetRefresh</b> menu: connect to Metabase, paste a question link, name the tab.</li>
+    <li><b>Pick a schedule.</b> Every hour or every morning. It keeps running with your browser closed.</li>
+  </ol>
+  <p>Full step-by-step instructions are in the <a href="https://github.com/KShannonhub/metabase-sheets-sync#setup-about-5-minutes">GitHub setup guide</a>.</p>
+
+  <h2>Why it works where other scripts break</h2>
+  <ul class="checks">
+    <li><b>Works with SSO.</b> It uses a Metabase API key, not a username and password, so Google/Okta sign-in doesn't break it.</li>
+    <li><b>Nothing to host.</b> It runs on Google's own scheduler. No server, no Zapier task limits, no monthly bill.</li>
+    <li><b>Your data stays yours.</b> Results go straight from your Metabase to your Sheet. There's no middleman server.</li>
+    <li><b>Refreshes in place.</b> Charts, formulas and pivot tables that point at the tab keep working.</li>
+  </ul>
+
+  <h2>Questions</h2>
+  <details>
+    <summary>What do I need?</summary>
+    <p>A Metabase with API keys (Admin → Settings → Authentication → API Keys) that Google's servers can reach over the internet — Metabase Cloud, or self-hosted on a public address. Plus a Google account with Google Sheets.</p>
+  </details>
+  <details>
+    <summary>My Metabase is behind a VPN or firewall. Will it work?</summary>
+    <p>No. Google's servers make the request, so they need to reach your Metabase.</p>
+  </details>
+  <details>
+    <summary>Is it really free?</summary>
+    <p>Yes. The script is open source under the MIT license. If it saves you time, you can buy me a coffee, but you don't have to.</p>
+  </details>
+  <details>
+    <summary>Where is my API key stored?</summary>
+    <p>In your own Google account (Apps Script user properties), not in the Sheet's cells. Other editors of the Sheet don't see it, and the schedule runs as you.</p>
+  </details>
+  <details>
+    <summary>How big can a refresh be?</summary>
+    <p>Google Sheets holds up to 10 million cells per spreadsheet. It's built for reporting-sized results, not full table dumps.</p>
+  </details>
+  <details>
+    <summary>Will there be a paid version?</summary>
+    <p>Maybe: a one-click install, email alerts when a refresh fails, and filter values per question. The free script stays free. <a href="mailto:kshannon7@gmail.com?subject=SheetRefresh%20Pro">Email me</a> if you want to hear when it's ready.</p>
+  </details>
+
+  <div class="coffee-box">
+    <p>Saved you a Monday-morning CSV shuffle?</p>
+    <a class="btn btn-coffee" href="https://buymeacoffee.com/krisshannon">☕ Buy me a coffee</a>
+  </div>
+
+  <footer>
+    SheetRefresh is an independent, open-source project and is not affiliated with or endorsed by Metabase, Inc. or Google LLC.
+    Metabase is a trademark of Metabase, Inc. Google Sheets is a trademark of Google LLC.
+  </footer>
+</main>
+</body>
+</html>

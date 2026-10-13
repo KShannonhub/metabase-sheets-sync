@@ -38,7 +38,11 @@
       text-decoration: none;
       font-size: 16px;
     }
+    button.btn { border: 0; cursor: pointer; font-family: inherit; }
     .btn-main { background: var(--accent); color: var(--accent-ink); }
+    .copy-row { margin-top: 12px; }
+    .copy-status { margin-top: 8px; color: var(--muted); font-size: 14px; min-height: 1.2em; }
+    .small-note { color: var(--muted); font-size: 14px; }
     .btn-coffee { background: var(--coffee); color: #111; }
     .panel {
       background: var(--panel);
@@ -97,7 +101,7 @@
   </p>
 
   <div class="buttons">
-    <a class="btn btn-main" href="https://github.com/KShannonhub/metabase-sheets-sync">Get the free script</a>
+    <a class="btn btn-main" href="#setup">Get the free script</a>
     <a class="btn btn-coffee" href="https://buymeacoffee.com/krisshannon">☕ Buy me a coffee</a>
   </div>
 
@@ -108,15 +112,29 @@
     results to your clipboard to paste into a Sheet. Either way, someone has to repeat it every time the numbers change.
   </div>
 
-  <h2>The automatic way (free)</h2>
+  <h2 id="setup">The automatic way (free, about 5 minutes)</h2>
   <p>SheetRefresh is a small open-source script that lives inside your Google Sheet. Set it up once:</p>
   <ol class="steps">
-    <li><b>Create a Metabase API key.</b> Admin → Settings → Authentication → API Keys. Give it a group that can only see what the Sheet needs.</li>
-    <li><b>Paste the script into your Sheet.</b> Extensions → Apps Script, paste <code>Code.gs</code> from GitHub, save, and reload the Sheet.</li>
-    <li><b>Connect and add questions.</b> Use the new <b>SheetRefresh</b> menu: connect to Metabase, paste a question link, name the tab.</li>
-    <li><b>Pick a schedule.</b> Every hour or every morning. It keeps running with your browser closed.</li>
+    <li><b>Create a Metabase API key.</b> In Metabase: Admin → Settings → Authentication → API Keys → Create. Give it a group that can only see the questions this Sheet needs.</li>
+    <li><b>Open the Apps Script editor.</b> Open the Google Sheet you want filled, then click <b>Extensions → Apps Script</b>. A code editor opens in a new tab.</li>
+    <li>
+      <b>Paste in the script.</b> Click the button below, then in the editor select everything in <code>Code.gs</code>,
+      paste over it, and click the <b>Save</b> icon.
+      <div class="buttons copy-row">
+        <button class="btn btn-main" id="copy-script" type="button">Copy the script</button>
+      </div>
+      <div class="copy-status" id="copy-status" role="status"></div>
+    </li>
+    <li><b>Reload your Google Sheet.</b> After a few seconds a <b>SheetRefresh</b> menu appears next to Help.</li>
+    <li>
+      <b>Connect to Metabase.</b> Click <b>SheetRefresh → Connect to Metabase</b>. Google asks you to approve access the first time.
+      Because the script is your own copy, Google shows a <b>"Google hasn't verified this app"</b> screen: click
+      <b>Advanced → Go to Untitled project (unsafe)</b>, then <b>Allow</b>. Then enter your Metabase address and the API key.
+    </li>
+    <li><b>Add a question.</b> Click <b>SheetRefresh → Add a question</b>, paste a question link (like <code>https://yourcompany.metabaseapp.com/question/123</code>), and name the tab it should fill.</li>
+    <li><b>Refresh and schedule.</b> Click <b>SheetRefresh → Refresh all now</b> to check it works, then <b>Refresh every hour</b> or <b>Refresh every morning</b>. It keeps running with your browser closed.</li>
   </ol>
-  <p>Full step-by-step instructions are in the <a href="https://github.com/KShannonhub/metabase-sheets-sync#setup-about-5-minutes">GitHub setup guide</a>.</p>
+  <p class="small-note">Prefer to read the code first? It's all on <a href="https://github.com/KShannonhub/metabase-sheets-sync">GitHub</a>.</p>
 
   <h2>Why it works where other scripts break</h2>
   <ul class="checks">
@@ -162,5 +180,63 @@
     Metabase is a trademark of Metabase, Inc. Google Sheets is a trademark of Google LLC.
   </footer>
 </main>
+<script>
+  (function () {
+    const SCRIPT_URL = 'https://raw.githubusercontent.com/KShannonhub/metabase-sheets-sync/main/Code.gs';
+    const button = document.getElementById('copy-script');
+    const status = document.getElementById('copy-status');
+    let scriptText = null;
+
+    // Fetch ahead of the click: Safari only allows clipboard writes directly inside the click.
+    fetch(SCRIPT_URL)
+      .then(function (response) { return response.ok ? response.text() : null; })
+      .then(function (text) { scriptText = text; })
+      .catch(function () {});
+
+    function showFallback() {
+      status.innerHTML = 'Couldn\'t copy automatically. <a href="' + SCRIPT_URL +
+        '" target="_blank" rel="noopener">Open the script</a>, select all, and copy it.';
+    }
+
+    function showCopied() {
+      button.textContent = 'Copied ✓';
+      status.textContent = 'Now paste it into Code.gs in the Apps Script editor and click Save.';
+    }
+
+    function legacyCopy(text) {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      let copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } catch (err) {
+        copied = false;
+      }
+      document.body.removeChild(area);
+      return copied;
+    }
+
+    button.addEventListener('click', function () {
+      if (!scriptText) {
+        showFallback();
+        return;
+      }
+      if (legacyCopy(scriptText)) {
+        showCopied();
+        return;
+      }
+      if (!navigator.clipboard) {
+        showFallback();
+        return;
+      }
+      navigator.clipboard.writeText(scriptText).then(showCopied, showFallback);
+    });
+  })();
+</script>
 </body>
 </html>

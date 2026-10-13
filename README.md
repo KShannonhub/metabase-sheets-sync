@@ -38,6 +38,10 @@ You can also add questions by typing straight into the **SheetRefresh** tab: a q
 - Your Metabase address and API key are saved in your own Google account (Apps Script user properties), not in the Sheet. Other editors of the Sheet don't see them, and the schedule runs as you.
 - To stop: **SheetRefresh → Stop automatic refresh**.
 
+## Questions or stuck?
+
+[Email me](mailto:kshannon7@gmail.com?subject=SheetRefresh%20question) with what you tried and what the Status column says. Found a bug or want a feature? [Open an issue](https://github.com/KShannonhub/metabase-sheets-sync/issues).
+
 ## Coming in a paid version
 
 A one-click install from the Google Workspace Marketplace, email alerts when a refresh fails, and filter values per question. [Email me](mailto:kshannon7@gmail.com?subject=SheetRefresh%20Pro) if you want to hear when it's ready.

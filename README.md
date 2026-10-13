@@ -20,12 +20,13 @@ If this saves you time, a coffee is appreciated. It's free either way.
 ## Setup (about 5 minutes)
 
 1. **Create an API key in Metabase.** Admin → Settings → Authentication → API Keys → Create. Assign it to a group that can only see the questions this Sheet needs.
-2. **Open a Google Sheet** and go to **Extensions → Apps Script**.
-3. **Paste the code.** Delete what's in `Code.gs`, paste in [`Code.gs`](Code.gs) from this repo, and click **Save**.
-4. **Reload the Sheet.** A **SheetRefresh** menu appears.
-5. **SheetRefresh → Connect to Metabase.** Enter your Metabase address and the API key. Google asks you to approve access the first time. Because this is your own copy of the script, Google shows an "unverified app" screen: click **Advanced → Go to (your project)**.
-6. **SheetRefresh → Add a question.** Paste a question link (e.g. `https://yourcompany.metabaseapp.com/question/123`) and name the tab it should fill.
-7. **SheetRefresh → Refresh all now** to check it works, then **Refresh every hour** or **Refresh every morning**.
+2. **[Make a free copy of the SheetRefresh Sheet](https://docs.google.com/spreadsheets/d/1qgpS43OyGv0besb_r3pH-KuSGHm5ZszPLGnX0_zecIw/copy).** It lands in your Google Drive with the script already inside.
+3. **Open your copy.** After a few seconds a **SheetRefresh** menu appears next to Help.
+4. **SheetRefresh → Connect to Metabase.** Enter your Metabase address and the API key. Google asks you to approve access the first time. Because this is your own copy of the script, Google shows an "unverified app" screen: click **Advanced → Go to SheetRefresh (unsafe)**, then **Allow**.
+5. **SheetRefresh → Add a question.** Paste a question link (e.g. `https://yourcompany.metabaseapp.com/question/123`) and name the tab it should fill.
+6. **SheetRefresh → Refresh all now** to check it works, then **Refresh every hour** or **Refresh every morning**.
+
+**Want it in a Sheet you already have?** Open that Sheet, go to **Extensions → Apps Script**, replace what's in `Code.gs` with [`Code.gs`](Code.gs) from this repo, click **Save**, reload the Sheet, and continue from step 4. On Google's warning screen the link says **Go to Untitled project (unsafe)** instead.
 
 You can also add questions by typing straight into the **SheetRefresh** tab: a question link or number in column A and a tab name in column B.
 

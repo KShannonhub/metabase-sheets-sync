@@ -101,7 +101,7 @@
   </p>
 
   <div class="buttons">
-    <a class="btn btn-main" href="#setup">Get the free script</a>
+    <a class="btn btn-main" href="https://docs.google.com/spreadsheets/d/1qgpS43OyGv0besb_r3pH-KuSGHm5ZszPLGnX0_zecIw/copy">Make a free copy</a>
     <a class="btn btn-coffee" href="https://buymeacoffee.com/krisshannon">☕ Buy me a coffee</a>
   </div>
 
@@ -116,24 +116,37 @@
   <p>SheetRefresh is a small open-source script that lives inside your Google Sheet. Set it up once:</p>
   <ol class="steps">
     <li><b>Create a Metabase API key.</b> In Metabase: Admin → Settings → Authentication → API Keys → Create. Give it a group that can only see the questions this Sheet needs.</li>
-    <li><b>Open the Apps Script editor.</b> Open the Google Sheet you want filled, then click <b>Extensions → Apps Script</b>. A code editor opens in a new tab.</li>
     <li>
-      <b>Paste in the script.</b> Click the button below, then in the editor select everything in <code>Code.gs</code>,
-      paste over it, and click the <b>Save</b> icon.
+      <b>Make your own copy of the SheetRefresh Sheet.</b> Click the button, then <b>Make a copy</b>. It lands in your
+      Google Drive with the script already inside. Nobody else can see your copy.
       <div class="buttons copy-row">
-        <button class="btn btn-main" id="copy-script" type="button">Copy the script</button>
+        <a class="btn btn-main" href="https://docs.google.com/spreadsheets/d/1qgpS43OyGv0besb_r3pH-KuSGHm5ZszPLGnX0_zecIw/copy">Make a free copy</a>
       </div>
-      <div class="copy-status" id="copy-status" role="status"></div>
     </li>
-    <li><b>Reload your Google Sheet.</b> After a few seconds a <b>SheetRefresh</b> menu appears next to Help.</li>
+    <li><b>Open your copy.</b> After a few seconds a <b>SheetRefresh</b> menu appears next to Help.</li>
     <li>
       <b>Connect to Metabase.</b> Click <b>SheetRefresh → Connect to Metabase</b>. Google asks you to approve access the first time.
       Because the script is your own copy, Google shows a <b>"Google hasn't verified this app"</b> screen: click
-      <b>Advanced → Go to Untitled project (unsafe)</b>, then <b>Allow</b>. Then enter your Metabase address and the API key.
+      <b>Advanced → Go to SheetRefresh (unsafe)</b>, then <b>Allow</b>. Then enter your Metabase address and the API key.
     </li>
     <li><b>Add a question.</b> Click <b>SheetRefresh → Add a question</b>, paste a question link (like <code>https://yourcompany.metabaseapp.com/question/123</code>), and name the tab it should fill.</li>
     <li><b>Refresh and schedule.</b> Click <b>SheetRefresh → Refresh all now</b> to check it works, then <b>Refresh every hour</b> or <b>Refresh every morning</b>. It keeps running with your browser closed.</li>
   </ol>
+
+  <details>
+    <summary>Want it in a Sheet you already have? Paste the script in yourself</summary>
+    <ol>
+      <li>Open that Sheet and click <b>Extensions → Apps Script</b>. A code editor opens in a new tab.</li>
+      <li>
+        Click the button below, then in the editor select everything in <code>Code.gs</code>, paste over it, and click the <b>Save</b> icon.
+        <div class="buttons copy-row">
+          <button class="btn btn-main" id="copy-script" type="button">Copy the script</button>
+        </div>
+        <div class="copy-status" id="copy-status" role="status"></div>
+      </li>
+      <li>Reload the Sheet so the <b>SheetRefresh</b> menu appears, then follow steps 4–6 above. On Google's warning screen, the link says <b>Go to Untitled project (unsafe)</b> instead.</li>
+    </ol>
+  </details>
   <p class="small-note">Prefer to read the code first? It's all on <a href="https://github.com/KShannonhub/metabase-sheets-sync">GitHub</a>.</p>
 
   <h2>Why it works where other scripts break</h2>

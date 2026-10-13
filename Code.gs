@@ -327,7 +327,10 @@ function normalizeBaseUrl_(input) {
 }
 
 function describeHttpError_(code) {
-  if (code === 401) return 'Metabase rejected the API key (401). Check the key or create a new one.';
+  if (code === 401) {
+    return 'Metabase rejected the API key (401). Make sure you copied the whole key, ' +
+      'including any "=" at the end, or create a new one.';
+  }
   if (code === 403) return "The API key's group can't see this (403). Give its group access in Metabase.";
   if (code === 404) return 'Not found (404). Check the Metabase address and question number.';
   return 'Metabase returned HTTP ' + code + '.';

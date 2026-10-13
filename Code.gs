@@ -10,6 +10,7 @@ const CONFIG_HEADER = ['Metabase question (link or number)', 'Destination tab', 
 const PROP_URL = 'METABASE_URL';
 const PROP_KEY = 'METABASE_API_KEY';
 const MAX_CELLS = 10000000;
+const TIMESTAMP_FORMAT = 'yyyy-mm-dd h:mm am/pm';
 
 function onOpen() {
   SpreadsheetApp.getUi()
@@ -151,6 +152,7 @@ function refreshAll() {
         sheet.getRange(sheetRow, 3, 1, 3).setValues([[new Date(), '', 'Error: ' + err.message]]);
         failed++;
       }
+      sheet.getRange(sheetRow, 3).setNumberFormat(TIMESTAMP_FORMAT);
     });
     return { ok: ok, failed: failed };
   } finally {

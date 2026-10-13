@@ -88,6 +88,7 @@ class FakeSheet {
         return this;
       },
       setFontWeight() { return this; },
+      setNumberFormat() { return this; },
     };
   }
 }
